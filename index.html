@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Basic sigma.js example</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+    }
+    #container {
+      position: absolute;
+      width: 60%;
+      height: 90%;
+      top: 10px;
+      right: 0px;
+      z-index: -99
+    }
+    .adyacencia{
+        width: 20px;
+    }
+    .opciones{
+        position: fixed;
+        bottom:0px;
+        color: white;
+        width: 100%;
+        background-color: #34495e;
+        padding: 20px;
+    }
+    .opciones input{
+        color: black;
+    }
+    #botonera * {
+        display: block;
+        padding-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <div id="matrizContainer"></div>
+  <div class="opciones">
+    <div class="init">
+      <label for="cantNodos">Cantidad de nodos</label> 
+      <input type="text" id="cantNodos"/>
+      <input type="button" id="btnCrearMatriz" value="Crear matriz de adyacencia" />
+      <div style="color:white; display: inline-block;" id="mensajes"></div>
+    </div>  
+  </div>
+  <script src='./sigma.min.js'></script>
+  <script src='./graph.js'></script>
+  <script type="text/javascript" src="./jquery-1.11.1.min.js"></script>
+  <script src='./core.js'></script>
+  <script>
+
+function runDijkstra(){
+    var init = $("#sourceNode").val();
+    var end = $("#targetNode").val();
+
+    if(init.length>0 && end.length>0){
+        init = "n"+init;
+        end = "n"+end;
+
+        var cantNodos = matrizIncidencia.length;
+        var ponderacion = null, source=null, target=null;
+
+        var graph = {};
+
+        for (var i = 1; i < matrizIncidencia.length; i++) {
+            source = "n"+i;
+            var destinos = {};
+
+            for (var j = 1; j < matrizIncidencia.length; j++) {
+
+                if(matrizIncidencia[i][j]!=Infinity){
+                    target = matrizIncidencia[i][j].split("_")[1];
+                    ponderacion = matrizIncidencia[i][j].split("_")[2];
+                    destinos["n"+target] = parseInt(ponderacion);
+                    console.log(destinos);
+                     graph[source] = destinos;
+                }
+
+
+            };
+        };
+
+
+        console.log(graph);
+        var startTime = new Date().getTime();
+        var endTime = new Date().getTime();
+        var time = endTime - startTime;
+
+        path = dijkstra.find_path(graph, init, end);
+
+        $("#mensajes").text("La ruta mas corta es: "+path+", y se ejecuco en: "+ time+" SEC.");
+
+        console.log(path);
+    }else{
+        $("#mensajes").text("Debe ingresar un nodo inicial y final.");
+    }
+}
+
+function primm(){
+
+
+}
+
+function kruskall(){
+
+}
+
+</script>
+</body>
+</html>
