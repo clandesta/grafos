@@ -40,14 +40,14 @@
   <div class="opciones">
     <div class="init">
       <label for="cantNodos">Cantidad de nodos</label> 
-      <input type="text" id="cantNodos"/>
+      <input type="text" id="cantNodos" value="5"/>
       <input type="button" id="btnCrearMatriz" value="Crear matriz de adyacencia" />
       <div style="color:white; display: inline-block;" id="mensajes"></div>
     </div>  
   </div>
-  <script src='./sigma.min.js'></script>
-  <script src='./graph.js'></script>
-  <script type="text/javascript" src="./jquery-1.11.1.min.js"></script>
+  <script src='./libs/sigma.min.js'></script>
+  <script src='./libs/graph.js'></script>
+  <script type="text/javascript" src="./libs/jquery-1.11.1.min.js"></script>
   <script src='./core.js'></script>
   <script>
 
@@ -71,13 +71,11 @@ function runDijkstra(){
             for (var j = 1; j < matrizIncidencia.length; j++) {
 
                 if(matrizIncidencia[i][j]!=Infinity){
-                    target = matrizIncidencia[i][j].split("_")[1];
-                    ponderacion = matrizIncidencia[i][j].split("_")[2];
-                    destinos["n"+target] = parseInt(ponderacion);
+                    target = j;
+                    destinos["n"+target] = matrizIncidencia[i][j];//guardar el peso
                     console.log(destinos);
-                     graph[source] = destinos;
+                    graph[source] = destinos;
                 }
-
 
             };
         };
