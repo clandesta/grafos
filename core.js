@@ -1,5 +1,6 @@
 var formulaValencia=[];
 var matrizIncidencia;
+var s;//Variable que almacena el objeto sigmaJs
 
 $(document).ready(function(){
 
@@ -20,7 +21,7 @@ $("#btnCrearMatriz").click(function(){
                 }else if(j===0){
                     $("#tablaAdyacencia tr:last-child").append("<td>"+"nodo"+i+"</td>");
                 }else{
-                    $("#tablaAdyacencia tr:last-child").append("<td><input type='text' id='adj_"+i+"_"+j+"' class='adyacencia' value='0' onchange='javascript:fixNode($(this))'></td>");
+                    $("#tablaAdyacencia tr:last-child").append("<td><input type='text' id='adj_"+i+"_"+j+"' class='adyacencia' value='0'></td>");
                 }
             };
         };
@@ -43,18 +44,17 @@ $("#btnCrearMatriz").click(function(){
 });
 
 function fixNode(vars){
-    //obliga a los nodos a tener una sola direccion.
-    var nodos = vars.attr("id").split("_");
-    var source = nodos[1];
-    var dest = nodos[2];
-    if(dest!=source){
-        var idNew = "#adj_"+dest+"_"+source;
-        $(idNew).val("0");
-    }
+    // //obliga a los nodos a tener una sola direccion.
+    // var nodos = vars.attr("id").split("_");
+    // var source = nodos[1];
+    // var dest = nodos[2];
+    // if(dest!=source){
+    //     var idNew = "#adj_"+dest+"_"+source;
+    //     $(idNew).val("0");
+    // }
 }
 
 
-var listaNodos = [];
 function nodificar(){
     var table = document.getElementById('tablaAdyacencia');
 
@@ -124,7 +124,7 @@ function validarGrafo(formVal){
 function graficarSimplex(){
     $("#container").empty();
     
-    var s = new sigma({
+     s = new sigma({
       renderers: [
         {
           container: document.getElementById('container'),
@@ -185,8 +185,8 @@ function graficarSimplex(){
     }
     
     s.refresh();
-    console.log(s.graph.nodes());
-    console.log(s.graph.edges());
+    // console.log(s.graph.nodes());
+    // console.log(s.graph.edges());
     
 }
 

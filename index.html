@@ -46,58 +46,41 @@
     </div>  
   </div>
   <script src='./libs/sigma.min.js'></script>
-  <script src='./libs/graph.js'></script>
   <script type="text/javascript" src="./libs/jquery-1.11.1.min.js"></script>
   <script src='./core.js'></script>
+  <script src='./dijkstra.js'></script>
   <script>
 
-function runDijkstra(){
-    var init = $("#sourceNode").val();
-    var end = $("#targetNode").val();
+function primm(){
+    var a,b,u,v,n,i,j,ne=1;
+    var MAXNODES = matrizIncidencia.length;
+    var visited = new Array(MAXNODES);//iniciar con 0;
+    for (var i = 0; i < visited.length; i++) {
+        visited[i] = 0;
+    };
+    var min=Infinity;
+    var mincost=0;
+    var cost = matrizIncidencia; //matrizAdyacencia
 
-    if(init.length>0 && end.length>0){
-        init = "n"+init;
-        end = "n"+end;
-
-        var cantNodos = matrizIncidencia.length;
-        var ponderacion = null, source=null, target=null;
-
-        var graph = {};
-
-        for (var i = 1; i < matrizIncidencia.length; i++) {
-            source = "n"+i;
-            var destinos = {};
-
-            for (var j = 1; j < matrizIncidencia.length; j++) {
-
-                if(matrizIncidencia[i][j]!=Infinity){
-                    target = j;
-                    destinos["n"+target] = matrizIncidencia[i][j];//guardar el peso
-                    console.log(destinos);
-                    graph[source] = destinos;
+    while(ne<n){
+        for (var i = 1; i <=n ; i++) {
+            for (var j = 1; j <= n; j++) {
+                if(cost[i][j]<min){
+                    if(visited[i]!=0){
+                        min = cost[i][j];
+                        a=u=i;
+                        b=v=j;
+                    }
                 }
-
             };
         };
-
-
-        console.log(graph);
-        var startTime = new Date().getTime();
-        var endTime = new Date().getTime();
-        var time = endTime - startTime;
-
-        path = dijkstra.find_path(graph, init, end);
-
-        $("#mensajes").text("La ruta mas corta es: "+path+", y se ejecuco en: "+ time+" SEC.");
-
-        console.log(path);
-    }else{
-        $("#mensajes").text("Debe ingresar un nodo inicial y final.");
+        if(visited[u]==0 || visited[v]==0){
+            mincost+=min;
+            visited[b]=1;
+        }
+        cost[a][b]= cost[b][a] = Infinity;
     }
-}
-
-function primm(){
-
+    console.log(mincost);
 
 }
 
