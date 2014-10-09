@@ -45,45 +45,28 @@ function dij(matrizCostos, source, target, padre, predecesores)
 
 function runDijkstra()  
 {
-var source = parseInt($("#sourceNode").val());
-var target = parseInt($("#targetNode").val());
-var distancias = new Array(matrizIncidencia.length);
+    console.log("<<DIJKSTRA>>");
+    var source = parseInt($("#sourceNode").val());
+    var target = parseInt($("#targetNode").val());
+    var distancias = new Array(matrizIncidencia.length);
 
-dij(matrizIncidencia,source,target, source, distancias);
+    dij(matrizIncidencia,source,target, source, distancias);
 
-var temp= new Array();
-var current = target;
-temp[0] = current;
-var index = distancias.length-1;
-do{
-    current = distancias[index];
-    temp[temp.length++]=current
-    index = current;
+    var temp= new Array();
+    var current = target;
+    temp[0] = current;
+    var index = distancias.length-1;
+    do{
+        current = distancias[index];
+        temp[temp.length++]=current
+        index = current;
 
-}while(current!=source);
+    }while(current!=source);
 
-var path = new Array();
-for (var i = temp.length-1; i >= 0; i--) {
-    path[path.length++]=temp[i]
-};
-console.log(path);
-cambiarColorAristas(path, target);
-}
-
-function cambiarColorAristas(path){
-    s.refresh();
-
-    var edges = s.graph.edges();
-    console.log(edges);
-     for (var i = 0; i < edges.length; i++) {
-         edges[i].color="#bdc3c7";
-     };
-
-    for (var i = 0; i < path.length; i++) {
-        var edge = s.graph.edges("e_"+path[i]+"_"+path[i+1]);
-        if( (i+1) < path.length){
-            edge.color="#3498db";
-        }
+    var path = new Array();
+    for (var i = temp.length-1; i >= 0; i--) {
+        path[path.length++]=temp[i]
     };
-    s.refresh();
+    console.log(path);
+    cambiarColorAristas(path, target);
 }

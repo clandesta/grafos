@@ -2,6 +2,52 @@ var formulaValencia=[];
 var matrizIncidencia;
 var s;//Variable que almacena el objeto sigmaJs
 
+function dummy(op){
+    $(".adyacencia").val(0);
+    switch (op){
+        case 1:
+            //DUMMY LIBRO AHO.
+            $("#adj_1_2").val("10");
+            $("#adj_1_4").val("30");
+            $("#adj_1_5").val("100");
+            $("#adj_2_3").val("50");
+            $("#adj_3_5").val("10");
+            $("#adj_4_3").val("20");
+            $("#adj_4_5").val("60");
+            break;
+        case 2:
+            $("#adj_1_2").val("2");
+            $("#adj_1_3").val("3");
+            $("#adj_1_5").val("6");
+
+            $("#adj_2_1").val("2");
+            $("#adj_2_5").val("2");
+            $("#adj_2_6").val("3");
+
+            $("#adj_3_1").val("3");
+            $("#adj_3_5").val("1");
+            $("#adj_3_4").val("5");
+
+            $("#adj_4_3").val("5");
+            $("#adj_4_5").val("5");
+            $("#adj_4_6").val("6");
+
+            $("#adj_5_1").val("6");
+            $("#adj_5_2").val("2");
+            $("#adj_5_3").val("1");
+            $("#adj_5_4").val("5");
+            $("#adj_5_6").val("4");
+
+            $("#adj_6_5").val("4");
+            $("#adj_6_2").val("3");
+            $("#adj_6_4").val("6");
+
+            break;
+        case 3:
+            break;
+    }
+}
+
 $(document).ready(function(){
 
 $("#btnCrearMatriz").click(function(){
@@ -28,14 +74,12 @@ $("#btnCrearMatriz").click(function(){
         $("#matrizContainer").append("<input type='button' id='btnGraficar' onclick='nodificar()' value='Graficar'>");
     }
 
-    //DUMMY LIBRO AHO.
-    $("#adj_1_2").val("10");
-    $("#adj_1_4").val("30");
-    $("#adj_1_5").val("100");
-    $("#adj_2_3").val("50");
-    $("#adj_3_5").val("10");
-    $("#adj_4_3").val("20");
-    $("#adj_4_5").val("60");
+
+    
+    
+    $(".opciones").append("<span><a href='javascript:dummy(1);'>Dijkstra</a><span>");
+    $(".opciones").append("<span><a href='javascript:dummy(2);'>Prim</a><span>");
+    $(".opciones").append("<span><a href='javascript:dummy(3);'>Kruskall</a><span>");
 
 });
 
@@ -74,7 +118,7 @@ function nodificar(){
     }
 
     $("#botonera").remove();
-    if(validarGrafo(qsort(formulaValencia) )){
+    if(validarGrafo(quicksort(formulaValencia) )){
         console.log("formula valida!");
         $("#mensajes").text("Formula valida... Graficando");
         graficarSimplex();
@@ -85,7 +129,7 @@ function nodificar(){
         $("#botonera").append("<label for='targetNode'>Nodo Destino</label><input type='text' id='targetNode'>");
 
         $("#botonera").append("<input type='button' onclick='runDijkstra()' value='Graficar Dijkstra'>");
-        $("#botonera").append("<input type='button' onclick='primm()' value='Graficar Primm'>");
+        $("#botonera").append("<input type='button' onclick='runPrimm()' value='Graficar Primm'>");
         $("#botonera").append("<input type='button' onclick='kruskall()' value='Graficar Kruskall'>");
 
     }else{
@@ -104,7 +148,7 @@ function validarGrafo(formVal){
                 return true;//false para validar grafos simples
             }
         };
-        formVal = qsort(formVal);
+        formVal = quicksort(formVal);
     };
     return true;
 }
@@ -178,7 +222,25 @@ function graficarSimplex(){
     
 }
 
-function qsort(a) {
+function cambiarColorAristas(path){
+    s.refresh();
+
+    var edges = s.graph.edges();
+    console.log(edges);
+     for (var i = 0; i < edges.length; i++) {
+         edges[i].color="#bdc3c7";
+     };
+
+    for (var i = 0; i < path.length; i++) {
+        var edge = s.graph.edges("e_"+path[i]+"_"+path[i+1]);
+        if( (i+1) < path.length){
+            edge.color="#3498db";
+        }
+    };
+    s.refresh();
+}
+
+function quicksort(a) {
     if (a.length == 0) return [];
 
     var left = [], right = [], pivot = a[0];
@@ -187,5 +249,5 @@ function qsort(a) {
         a[i] > pivot ? left.push(a[i]) : right.push(a[i]);
     }
 
-    return qsort(left).concat(pivot, qsort(right));
+    return quicksort(left).concat(pivot, quicksort(right));
 }
