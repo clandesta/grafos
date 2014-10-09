@@ -43,17 +43,6 @@ $("#btnCrearMatriz").click(function(){
 
 });
 
-function fixNode(vars){
-    // //obliga a los nodos a tener una sola direccion.
-    // var nodos = vars.attr("id").split("_");
-    // var source = nodos[1];
-    // var dest = nodos[2];
-    // if(dest!=source){
-    //     var idNew = "#adj_"+dest+"_"+source;
-    //     $(idNew).val("0");
-    // }
-}
-
 
 function nodificar(){
     var table = document.getElementById('tablaAdyacencia');
@@ -118,7 +107,6 @@ function validarGrafo(formVal){
         formVal = qsort(formVal);
     };
     return true;
-
 }
 
 function graficarSimplex(){

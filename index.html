@@ -52,36 +52,13 @@
   <script>
 
 function primm(){
-    var a,b,u,v,n,i,j,ne=1;
-    var MAXNODES = matrizIncidencia.length;
-    var visited = new Array(MAXNODES);//iniciar con 0;
-    for (var i = 0; i < visited.length; i++) {
-        visited[i] = 0;
-    };
-    var min=Infinity;
-    var mincost=0;
-    var cost = matrizIncidencia; //matrizAdyacencia
+    console.log(formulaValencia);
+    console.log(matrizIncidencia);
+    if(validarGrafo(formulaValencia)){
+        //como es un grafo no dirigido debe ser validado con su formula de valencia.
 
-    while(ne<n){
-        for (var i = 1; i <=n ; i++) {
-            for (var j = 1; j <= n; j++) {
-                if(cost[i][j]<min){
-                    if(visited[i]!=0){
-                        min = cost[i][j];
-                        a=u=i;
-                        b=v=j;
-                    }
-                }
-            };
-        };
-        if(visited[u]==0 || visited[v]==0){
-            mincost+=min;
-            visited[b]=1;
-        }
-        cost[a][b]= cost[b][a] = Infinity;
+
     }
-    console.log(mincost);
-
 }
 
 function kruskall(){

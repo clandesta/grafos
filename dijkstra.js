@@ -71,9 +71,17 @@ cambiarColorAristas(path, target);
 }
 
 function cambiarColorAristas(path){
+    s.refresh();
+
+    var edges = s.graph.edges();
+    console.log(edges);
+     for (var i = 0; i < edges.length; i++) {
+         edges[i].color="#bdc3c7";
+     };
+
     for (var i = 0; i < path.length; i++) {
+        var edge = s.graph.edges("e_"+path[i]+"_"+path[i+1]);
         if( (i+1) < path.length){
-            var edge = s.graph.edges("e_"+path[i]+"_"+path[i+1]);
             edge.color="#3498db";
         }
     };
