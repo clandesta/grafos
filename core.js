@@ -15,7 +15,7 @@ function dummy(op){
             $("#adj_4_3").val("20");
             $("#adj_4_5").val("60");
             break;
-        case 2:
+        default:
             $("#adj_1_2").val("2");
             $("#adj_1_3").val("3");
             $("#adj_1_5").val("6");
@@ -42,8 +42,6 @@ function dummy(op){
             $("#adj_6_2").val("3");
             $("#adj_6_4").val("6");
 
-            break;
-        case 3:
             break;
     }
 }
@@ -73,13 +71,11 @@ $("#btnCrearMatriz").click(function(){
         };
         $("#matrizContainer").append("<input type='button' id='btnGraficar' onclick='nodificar()' value='Graficar'>");
     }
-
-
     
-    
-    $(".opciones").append("<span><a href='javascript:dummy(1);'>Dijkstra</a><span>");
-    $(".opciones").append("<span><a href='javascript:dummy(2);'>Prim</a><span>");
-    $(".opciones").append("<span><a href='javascript:dummy(3);'>Kruskall</a><span>");
+    $(".opciones .foo").empty();
+    $(".opciones .foo").append("<span><a href='javascript:dummy(1);'>Dijkstra</a><span>");
+    $(".opciones .foo").append("<span><a href='javascript:dummy(2);'>Prim</a><span>");
+    $(".opciones .foo").append("<span><a href='javascript:dummy(3);'>Kruskall</a><span>");
 
 });
 
@@ -93,6 +89,7 @@ function nodificar(){
 
     var rowLength = table.rows.length;
     matrizIncidencia = new Array(rowLength);
+    var cntAristas=0;
 
     for(var i=1; i<rowLength; i+=1){
       var row = table.rows[i];
@@ -109,6 +106,7 @@ function nodificar(){
         if(valor>0){
             sumatoria+=1;
             matrizIncidencia[i][y] = valor;
+            cntAristas+=1;
         }else{
             matrizIncidencia[i][y] = Infinity;
         }
@@ -118,7 +116,7 @@ function nodificar(){
     }
 
     $("#botonera").remove();
-    if(validarGrafo(quicksort(formulaValencia) )){
+    if(validarGrafo(quicksort(formulaValencia) ) && cntAristas > 0){
         console.log("formula valida!");
         $("#mensajes").text("Formula valida... Graficando");
         graficarSimplex();
@@ -130,7 +128,7 @@ function nodificar(){
 
         $("#botonera").append("<input type='button' onclick='runDijkstra()' value='Graficar Dijkstra'>");
         $("#botonera").append("<input type='button' onclick='runPrimm()' value='Graficar Primm'>");
-        $("#botonera").append("<input type='button' onclick='kruskall()' value='Graficar Kruskall'>");
+        $("#botonera").append("<input type='button' onclick='runKruskall()' value='Graficar Kruskall'>");
 
     }else{
         $("#mensajes").text("Formula invalida");
@@ -211,7 +209,7 @@ function graficarSimplex(){
                 }catch(ex){
                     //console.log(ex);
                 }
-                s.graph.addEdge({id: 'e_'+i+"_"+j,source: 'n'+i,target: 'n'+j, color:'#bdc3c7', peso:valor, type:'t'});
+                s.graph.addEdge({id: 'e_'+i+"_"+j,source: 'n'+i,target: 'n'+j, color:'#bdc3c7', peso:valor, type:'noDirigido'});
             }
         }
     }
@@ -222,20 +220,36 @@ function graficarSimplex(){
     
 }
 
-function cambiarColorAristas(path){
-    s.refresh();
-
+function colorearDijkstra(path){
     var edges = s.graph.edges();
-    console.log(edges);
      for (var i = 0; i < edges.length; i++) {
          edges[i].color="#bdc3c7";
+         edges[i].type="dirigido";
      };
-
+    s.refresh();
     for (var i = 0; i < path.length; i++) {
         var edge = s.graph.edges("e_"+path[i]+"_"+path[i+1]);
         if( (i+1) < path.length){
             edge.color="#3498db";
         }
+    };
+    s.refresh();
+}
+
+function colorearGrafo(path){
+    var edges = s.graph.edges();
+     for (var i = 0; i < edges.length; i++) {
+         edges[i].type="noDirigido";
+         edges[i].color="white";
+     };
+    s.refresh();
+    for (var i = 0; i < path.length; i++) {
+        var edge = s.graph.edges("e_"+path[i]+"_"+path[i+1]);
+        console.log(edge);
+        if( (i+1) < path.length){   
+            edge.color="#3498db";
+        }
+        i++;
     };
     s.refresh();
 }

@@ -43,84 +43,17 @@
       <input type="text" id="cantNodos" value="5"/>
       <input type="button" id="btnCrearMatriz" value="Crear matriz de adyacencia" />
       <div style="color:white; display: inline-block;" id="mensajes"></div>
+
     </div>
-    
+    <span class="foo"></span>
   </div>
   <script src='./libs/sigma.min.js'></script>
   <script type="text/javascript" src="./libs/jquery-1.11.1.min.js"></script>
   <script src='./core.js'></script>
   <script src='./dijkstra.js'></script>
+  <script src='./prim.js'></script>
+  <script src='./kruskall.js'></script>
   <script>
-
-
-function prim(matrizIncidencia, marcados, vertice, solucion){
-    marcados[vertice] = true;//marcamos el primer nodo
-    var aux = -1;
-    if (!todosVisitados(marcados)) { //Mientras que no todos estén marcados
-        for (var i = 1; i < marcados.length; i++) { //Recorremos sólo las filas de los nodos marcados
-            if (marcados[i]) {
-                for (var j = 1; j < matrizIncidencia.length; j++) {
-                    if (matrizIncidencia[i][j] != 0) {        //Si la arista existe
-                        if (!marcados[j]) {         //Si el nodo no ha sido marcado antes
-                            if (aux == -1) {        //Esto sólo se hace una vez
-                                aux = matrizIncidencia[i][j];
-                            } else {
-                                aux = Math.min(aux, matrizIncidencia[i][j]); //Encontramos la arista mínima
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //Aquí buscamos el nodo correspondiente a esa arista mínima (aux)
-        for (var i = 1; i < marcados.length; i++) {
-            if (marcados[i]) {
-                for (var j = 1; j < matrizIncidencia.length; j++) {
-                    if (matrizIncidencia[i][j] == aux) {
-                        if (!marcados[j]) { //Si no ha sido marcado antes
-                            solucion[i][j] = aux; //Se llena la matriz final con el valor
-                            solucion[j][i] = aux;//Se llena la matriz final con el valor
-                            return prim(matrizIncidencia, marcados, j, solucion); //se llama de nuevo al método con
-                                                                                           //el nodo a marcar
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return solucion;
-}
-
-function todosVisitados(marcados){
-    for (var i = 1; i < marcados.length; i++) {
-        if(marcados[i]==false){
-            return false;
-        }
-    };
-    return true;
-}
-
-function runPrimm(){
-    console.log("<<PRIM>>")
-    if(validarGrafo(quicksort(formulaValencia))){
-        //como es un grafo no dirigido debe ser validado con su formula de valencia.
-        console.log("formula valida");
-        var marcados = new Array(matrizIncidencia.length); //Creamos un vector booleano, para saber cuales están marcados
-        var vertice = 1; //Le introducimos un nodo aleatorio, o el primero
-        var solucion = new Array(matrizIncidencia.length);
-        for (var i = 1; i < matrizIncidencia.length; i++) {
-            solucion[i]= new Array(matrizIncidencia.length);
-            marcados[i]=false;
-        };
-        console.log("respuesta:");
-        console.log(prim(matrizIncidencia, marcados, vertice, solucion));
-    }
-}
-
-function kruskall(){
-
-}
-
 </script>
 </body>
 </html>

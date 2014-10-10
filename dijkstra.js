@@ -45,28 +45,34 @@ function dij(matrizCostos, source, target, padre, predecesores)
 
 function runDijkstra()  
 {
-    console.log("<<DIJKSTRA>>");
+    
     var source = parseInt($("#sourceNode").val());
     var target = parseInt($("#targetNode").val());
     var distancias = new Array(matrizIncidencia.length);
+    
+    if(source>0 && target>0){
+        console.log("<<DIJKSTRA>>");
+        dij(matrizIncidencia,source,target, source, distancias);
 
-    dij(matrizIncidencia,source,target, source, distancias);
+        var temp= new Array();
+        var current = target;
+        temp[0] = current;
+        var index = distancias.length-1;
+        do{
+            current = distancias[index];
+            temp[temp.length++]=current
+            index = current;
 
-    var temp= new Array();
-    var current = target;
-    temp[0] = current;
-    var index = distancias.length-1;
-    do{
-        current = distancias[index];
-        temp[temp.length++]=current
-        index = current;
+        }while(current!=source);
 
-    }while(current!=source);
-
-    var path = new Array();
-    for (var i = temp.length-1; i >= 0; i--) {
-        path[path.length++]=temp[i]
-    };
-    console.log(path);
-    cambiarColorAristas(path, target);
+        var path = new Array();
+        for (var i = temp.length-1; i >= 0; i--) {
+            path[path.length++]=temp[i]
+        };
+        console.log(path);
+        colorearDijkstra(path, target);
+    }else{
+        $("#mensajes").text("Debe ingresar Nodo inicio y Nodo Fin.");
+    }
 }
+
